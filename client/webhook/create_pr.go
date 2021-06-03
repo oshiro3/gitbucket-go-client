@@ -14,8 +14,7 @@ type repository struct {
 	Forks         int    `json:"forks"`
 	Private       bool   `json:"private"`
 	DefaultBranch string `json:"default_branch"`
-	//TODO
-	// Owner         user   `json:"full_name"`
+	Owner         user   `json:"owner"`
 	Id            int    `json:"id"`
 	ForksCount    int    `json:"forks_count"`
 	WatchersCount int    `json:"watchers_count"`
@@ -26,10 +25,31 @@ type repository struct {
 	SshUrl        string `json:"ssh_url"`
 }
 
+type user struct {
+	Login     string `json:"login"`
+	Email     string `json:"email"`
+	Type      string `json:"type"`
+	SiteAdmin bool   `json:"site_admin"`
+	CreatedAt string `json:"created_at"`
+	Id        int    `json:"id"`
+	Url       string `json:"url"`
+	HtmlUrl   string `json:"html_url"`
+	AvatarUrl string `json:"avatar_url"`
+}
+
 type base struct {
 	Sha  string     `json:"sha"`
 	Ref  string     `json:"ref"`
 	Repo repository `json:"repo"`
+}
+
+type head struct {
+	Sha  string     `json:"sha"`
+	Ref  string     `json:"ref"`
+	Repo repository `json:"repo"`
+	//TODO
+	// Label
+	User user `json:"user"`
 }
 
 type pullReauest struct {
@@ -37,14 +57,12 @@ type pullReauest struct {
 	State     string `json:"state"`
 	UpdatedAt string `json:"updatead_at"`
 	CreatedAt string `json:"created_at"`
-	//TODO
-	// Head
-	Base   base   `json:"base"`
-	Merged bool   `json:"merged"`
-	Title  string `json:"title"`
-	Body   string `json:"body"`
-	//TODO
-	// User
+	Head      head   `json:"head"`
+	Base      base   `json:"base"`
+	Merged    bool   `json:"merged"`
+	Title     string `json:"title"`
+	Body      string `json:"body"`
+	User      user   `json:"user"`
 	//TODO
 	// Labels            []label `json:"labels"`
 	Id                int    `json:"id"`
@@ -57,20 +75,36 @@ type pullReauest struct {
 	HtmlUrl           string `json:"html_url"`
 }
 
-type CreatePRWebhook struct {
+type PRWebhook struct {
 	Action      string      `json:"action"`
 	Number      int         `json:"number"`
 	Repository  repository  `json:"repository"`
 	PullReauest pullReauest `json:"pull_request"`
-	//TODO
-	// Sender sender `json:"sender"`
+	Sender      user        `json:"sender"`
 }
 
-func ParseCreatePRWebhook(body io.Reader) CreatePRWebhook {
-	var h CreatePRWebhook
+var (
+	OPEN  string = "opened"
+	CLOSE string = "closed"
+)
+
+func ParsePRWebhook(body io.Reader) *PRWebhook {
+	var h *PRWebhook
 	err := json.NewDecoder(body).Decode(&h)
 	if err != nil {
 		log.Fatal(err)
 	}
 	return h
+}
+
+func (h *CreatePRWebhook) IsOpened() bool {
+	return h.Action == OPEN
+}
+
+func (h *CreatePRWebhook) IsClosed() bool {
+	return h.Action == CLOSE
+}
+
+func (h *CreatePRWebhook) IsMerged() bool {
+	return h.IsClosed() && h.PullReauest.Merged
 }
