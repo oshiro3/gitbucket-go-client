@@ -9,16 +9,14 @@ import (
 
 type gitbucket struct {
 	host       string
-	port       int
 	owner      string
 	repository string
 	token      string
 }
 
-func New(host string, port int, owner, repository string) *gitbucket {
+func New(host string, owner, repository string) *gitbucket {
 	return &gitbucket{
 		host:       host,
-		port:       port,
 		owner:      owner,
 		repository: repository,
 	}
@@ -59,5 +57,5 @@ func (g *gitbucket) buildToken() string {
 }
 
 func (g *gitbucket) buildCommentURL(number int) string {
-	return fmt.Sprintf("http://%s:%d/api/v3/repos/%s/%s/issues/%d/comments", g.host, g.port, g.owner, g.repository, number)
+	return fmt.Sprintf("http://%s/api/v3/repos/%s/%s/issues/%d/comments", g.host, g.owner, g.repository, number)
 }
