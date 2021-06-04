@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-type repository struct {
+type Repository struct {
 	Name          string `json:"name"`
 	FullName      string `json:"full_name"`
 	Description   string `json:"description"`
@@ -14,7 +14,7 @@ type repository struct {
 	Forks         int    `json:"forks"`
 	Private       bool   `json:"private"`
 	DefaultBranch string `json:"default_branch"`
-	Owner         user   `json:"owner"`
+	Owner         User   `json:"owner"`
 	Id            int    `json:"id"`
 	ForksCount    int    `json:"forks_count"`
 	WatchersCount int    `json:"watchers_count"`
@@ -25,7 +25,7 @@ type repository struct {
 	SshUrl        string `json:"ssh_url"`
 }
 
-type user struct {
+type User struct {
 	Login     string `json:"login"`
 	Email     string `json:"email"`
 	Type      string `json:"type"`
@@ -37,32 +37,32 @@ type user struct {
 	AvatarUrl string `json:"avatar_url"`
 }
 
-type base struct {
+type Base struct {
 	Sha  string     `json:"sha"`
 	Ref  string     `json:"ref"`
-	Repo repository `json:"repo"`
+	Repo Repository `json:"repo"`
 }
 
-type head struct {
+type Head struct {
 	Sha  string     `json:"sha"`
 	Ref  string     `json:"ref"`
-	Repo repository `json:"repo"`
+	Repo Repository `json:"repo"`
 	//TODO
 	// Label
-	User user `json:"user"`
+	User User `json:"user"`
 }
 
-type pullReauest struct {
-	Number    int    `json:"repository"`
+type PullRequest struct {
+	Number    int    `json:"number"`
 	State     string `json:"state"`
 	UpdatedAt string `json:"updatead_at"`
 	CreatedAt string `json:"created_at"`
-	Head      head   `json:"head"`
-	Base      base   `json:"base"`
+	Head      Head   `json:"head"`
+	Base      Base   `json:"base"`
 	Merged    bool   `json:"merged"`
 	Title     string `json:"title"`
 	Body      string `json:"body"`
-	User      user   `json:"user"`
+	User      User   `json:"user"`
 	//TODO
 	// Labels            []label `json:"labels"`
 	Id                int    `json:"id"`
@@ -78,9 +78,9 @@ type pullReauest struct {
 type PRWebhook struct {
 	Action      string      `json:"action"`
 	Number      int         `json:"number"`
-	Repository  repository  `json:"repository"`
-	PullReauest pullReauest `json:"pull_request"`
-	Sender      user        `json:"sender"`
+	Repository  Repository  `json:"repository"`
+	PullRequest PullRequest `json:"pull_request"`
+	Sender      User        `json:"sender"`
 }
 
 var (
@@ -106,5 +106,5 @@ func (h *PRWebhook) IsClosed() bool {
 }
 
 func (h *PRWebhook) IsMerged() bool {
-	return h.IsClosed() && h.PullReauest.Merged
+	return h.IsClosed() && h.PullRequest.Merged
 }
