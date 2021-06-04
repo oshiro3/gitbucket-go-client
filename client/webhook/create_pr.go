@@ -97,14 +97,14 @@ func ParsePRWebhook(body io.Reader) *PRWebhook {
 	return h
 }
 
-func (h *CreatePRWebhook) IsOpened() bool {
+func (h *PRWebhook) IsOpened() bool {
 	return h.Action == OPEN
 }
 
-func (h *CreatePRWebhook) IsClosed() bool {
+func (h *PRWebhook) IsClosed() bool {
 	return h.Action == CLOSE
 }
 
-func (h *CreatePRWebhook) IsMerged() bool {
+func (h *PRWebhook) IsMerged() bool {
 	return h.IsClosed() && h.PullReauest.Merged
 }
