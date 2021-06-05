@@ -86,6 +86,7 @@ type PRWebhook struct {
 var (
 	OPEN  string = "opened"
 	CLOSE string = "closed"
+	SYNC  string = "synchronize"
 )
 
 func ParsePRWebhook(body io.Reader) *PRWebhook {
@@ -99,6 +100,10 @@ func ParsePRWebhook(body io.Reader) *PRWebhook {
 
 func (h *PRWebhook) IsOpened() bool {
 	return h.Action == OPEN
+}
+
+func (h *PRWebhook) IsSynchronize() bool {
+	return h.Action == SYNC
 }
 
 func (h *PRWebhook) IsClosed() bool {
