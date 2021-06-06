@@ -88,13 +88,13 @@ var (
 	SYNC  string = "synchronize"
 )
 
-func ParsePRWebhook(body io.Reader) *PRWebhook {
+func ParsePRWebhook(body io.Reader) (*PRWebhook, error) {
 	var h *PRWebhook
 	err := json.NewDecoder(body).Decode(&h)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return h
+	return h, nil
 }
 
 func (h *PRWebhook) IsOpened() bool {
