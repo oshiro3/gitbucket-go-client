@@ -28,5 +28,5 @@ func (g *Gitbucket) GetPublicRepositories() ([]Repository, error) {
 }
 
 func (g *Gitbucket) buildGetPublicRepositoriesUrl() string {
-	return fmt.Sprintf("http://%s/api/v3/repositories", g.host)
+	return fmt.Sprintf("%s/repositories", g.baseUrl())
 }

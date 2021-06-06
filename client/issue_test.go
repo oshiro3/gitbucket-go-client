@@ -22,7 +22,8 @@ func TestSetStatus(t *testing.T) {
 
 		cli := New("githost:8080", "root", "test")
 		payload := &Status{State: "pending", TargetUrl: "http://hogehoge.com", Description: "test message", Context: "ci"}
-		err := cli.SetStatus("abc", payload)
+		res, err := cli.SetStatus("abc", payload)
+		assert.Equal(t, 200, res.StatusCode)
 		assert.NoError(t, err)
 	})
 

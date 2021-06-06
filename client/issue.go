@@ -2,7 +2,6 @@ package client
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,38 +15,23 @@ type Status struct {
 	Context     string `json:"context"`
 }
 
-func (g *Gitbucket) SetStatus(hash string, status *Status) error {
+func (g *Gitbucket) SetStatus(hash string, status *Status) (*http.Response, error) {
 	body, err := json.Marshal(status)
 	if err != nil {
 		log.Println("fail to marshal payload")
-		return err
+		return nil, err
 	}
-
-	req, err := http.NewRequest(
-		http.MethodPost,
+	res, err := g.request(
+		"POST",
 		g.buildStatusURL(hash),
 		strings.NewReader(string(body)),
 	)
 	if err != nil {
-		log.Println("fail to create request")
-		return err
+		return nil, err
 	}
-
-	req.Header.Set("Authorization", g.buildToken())
-	req.Header.Set("Content-Type", "application/json")
-
-	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		log.Println("fail to send request")
-		return err
-	}
-	if res.StatusCode != 200 {
-		return errors.New(fmt.Sprintf("request do not succee %#v", res))
-	}
-
-	return nil
+	return res, nil
 }
 
 func (g *Gitbucket) buildStatusURL(commit string) string {
-	return fmt.Sprintf("http://%s/api/v3/repos/%s/%s/statuses/%s", g.host, g.owner, g.repositoryName, commit)
+	return fmt.Sprintf("%s/repos/%s/%s/statuses/%s", g.baseUrl(), g.owner, g.repositoryName, commit)
 }
