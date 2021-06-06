@@ -1,7 +1,6 @@
 package client
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -37,11 +36,6 @@ func (g *gitbucket) SetStatus(hash string, status *Status) error {
 	req.Header.Set("Authorization", g.buildToken())
 	req.Header.Set("Content-Type", "application/json")
 
-	b, _ := req.GetBody()
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(b)
-	newStr := buf.String()
-	log.Printf("%#v\n", newStr)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Println("fail to send request")

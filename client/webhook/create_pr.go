@@ -3,7 +3,6 @@ package client
 import (
 	"encoding/json"
 	"io"
-	"log"
 )
 
 type Repository struct {
@@ -93,7 +92,7 @@ func ParsePRWebhook(body io.Reader) *PRWebhook {
 	var h *PRWebhook
 	err := json.NewDecoder(body).Decode(&h)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	return h
 }
