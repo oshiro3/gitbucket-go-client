@@ -16,7 +16,7 @@ type Status struct {
 	Context     string `json:"context"`
 }
 
-func (g *gitbucket) SetStatus(hash string, status *Status) error {
+func (g *Gitbucket) SetStatus(hash string, status *Status) error {
 	body, err := json.Marshal(status)
 	if err != nil {
 		log.Println("fail to marshal payload")
@@ -48,6 +48,6 @@ func (g *gitbucket) SetStatus(hash string, status *Status) error {
 	return nil
 }
 
-func (g *gitbucket) buildStatusURL(commit string) string {
-	return fmt.Sprintf("http://%s/api/v3/repos/%s/%s/statuses/%s", g.host, g.owner, g.repository, commit)
+func (g *Gitbucket) buildStatusURL(commit string) string {
+	return fmt.Sprintf("http://%s/api/v3/repos/%s/%s/statuses/%s", g.host, g.owner, g.repositoryName, commit)
 }

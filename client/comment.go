@@ -12,7 +12,7 @@ type comment struct {
 	Body string `json:"body"`
 }
 
-func (g *gitbucket) Comment(issueNumber int, message string) (*http.Response, error) {
+func (g *Gitbucket) Comment(issueNumber int, message string) (*http.Response, error) {
 	comment := &comment{Body: message}
 	log.Printf("%#v\n", comment)
 	body, err := json.Marshal(comment)
@@ -42,6 +42,6 @@ func (g *gitbucket) Comment(issueNumber int, message string) (*http.Response, er
 	return res, nil
 }
 
-func (g *gitbucket) buildCommentURL(number int) string {
-	return fmt.Sprintf("http://%s/api/v3/repos/%s/%s/issues/%d/comments", g.host, g.owner, g.repository, number)
+func (g *Gitbucket) buildCommentURL(number int) string {
+	return fmt.Sprintf("http://%s/api/v3/repos/%s/%s/issues/%d/comments", g.host, g.owner, g.repositoryName, number)
 }
