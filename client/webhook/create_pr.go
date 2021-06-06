@@ -19,7 +19,7 @@ var (
 	SYNC  string = "synchronize"
 )
 
-func ParsePRWebhook(body io.Reader) (*PRWebhook, error) {
+func parsePRWebhook(body io.Reader) (*PRWebhook, error) {
 	var h *PRWebhook
 	err := json.NewDecoder(body).Decode(&h)
 	if err != nil {
