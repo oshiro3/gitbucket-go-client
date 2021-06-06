@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/oshiro3/gitbucket-go-client/branch/main/graph/badge.svg?token=9MYDA6AOMP)](https://codecov.io/gh/oshiro3/gitbucket-go-client)
+
 # gitbucket-go-client
 
 `gitbucket-go-client` is a library for manipulating gitbucket by calling the gitbucket API from a go program.
