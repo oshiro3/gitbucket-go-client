@@ -81,7 +81,7 @@ func judgeEvent(r *http.Request) string {
 func ParseWebhook(r *http.Request) (interface{}, error) {
 	switch judgeEvent(r) {
 	case "pull_request":
-		return parsePRWebhook(r.Body)
+		return parsePRWebhook(r)
 	}
 	return nil, errors.New("event type is undefined")
 }

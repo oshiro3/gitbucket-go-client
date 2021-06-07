@@ -2,7 +2,8 @@ package webhook
 
 import (
 	"encoding/json"
-	"io"
+	"net/http"
+	"strings"
 )
 
 type PRWebhook struct {
@@ -19,9 +20,10 @@ var (
 	SYNC  string = "synchronize"
 )
 
-func parsePRWebhook(body io.Reader) (*PRWebhook, error) {
+func parsePRWebhook(r *http.Request) (*PRWebhook, error) {
 	var h *PRWebhook
-	err := json.NewDecoder(body).Decode(&h)
+	payload := r.FormValue("payload")
+	err := json.NewDecoder(strings.NewReader(payload)).Decode(&h)
 	if err != nil {
 		return nil, err
 	}
