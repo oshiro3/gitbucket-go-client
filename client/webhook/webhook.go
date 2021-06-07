@@ -1,7 +1,6 @@
 package webhook
 
 import (
-	"errors"
 	"net/http"
 )
 
@@ -74,14 +73,6 @@ type PullRequest struct {
 	HtmlUrl           string `json:"html_url"`
 }
 
-func judgeEvent(r *http.Request) string {
+func JudgeEvent(r *http.Request) string {
 	return r.Header.Get("X-Github-Event")
-}
-
-func ParseWebhook(r *http.Request) (interface{}, error) {
-	switch judgeEvent(r) {
-	case "pull_request":
-		return parsePRWebhook(r)
-	}
-	return nil, errors.New("event type is undefined")
 }

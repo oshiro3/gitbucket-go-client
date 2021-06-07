@@ -20,7 +20,7 @@ var (
 	SYNC  string = "synchronize"
 )
 
-func parsePRWebhook(r *http.Request) (*PRWebhook, error) {
+func ParsePRWebhook(r *http.Request) (*PRWebhook, error) {
 	var h *PRWebhook
 	payload := r.FormValue("payload")
 	err := json.NewDecoder(strings.NewReader(payload)).Decode(&h)
