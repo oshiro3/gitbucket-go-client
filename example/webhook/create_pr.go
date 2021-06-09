@@ -16,7 +16,7 @@ func sampleHandler(w http.ResponseWriter, r *http.Request) {
 			log.Printf("Fail to parse webhook: %v\n", err)
 			return
 		}
-		log.Printf("%v\n", webhook)
+		log.Printf("%v\n", hook)
 	}
 }
 
