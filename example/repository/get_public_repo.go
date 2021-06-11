@@ -6,7 +6,7 @@ import (
 	"github.com/oshiro3/gitbucket-go-client/client"
 )
 
-func main() {
+func main2() {
 	cli := client.NewClient("localhost:8081")
 	repos, err := cli.GetPublicRepositories()
 	if err != nil {

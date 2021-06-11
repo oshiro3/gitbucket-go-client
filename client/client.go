@@ -86,6 +86,14 @@ func (g *Gitbucket) baseUrl() string {
 }
 
 func (g *Gitbucket) request(method, url string, body io.Reader) (*http.Response, error) {
+	return g.doRrequest(method, url, body, true)
+}
+
+func (g *Gitbucket) requestWithoutAuth(method, url string, body io.Reader) (*http.Response, error) {
+	return g.doRrequest(method, url, body, false)
+}
+
+func (g *Gitbucket) doRrequest(method, url string, body io.Reader, auth bool) (*http.Response, error) {
 	req, err := http.NewRequest(
 		method,
 		url,
@@ -96,7 +104,9 @@ func (g *Gitbucket) request(method, url string, body io.Reader) (*http.Response,
 		return nil, err
 	}
 
-	req.Header.Set("Authorization", g.buildToken())
+	if auth {
+		req.Header.Set("Authorization", g.buildToken())
+	}
 	req.Header.Set("Content-Type", "application/json")
 
 	res, err := http.DefaultClient.Do(req)
