@@ -1,4 +1,5 @@
 [![codecov](https://codecov.io/gh/oshiro3/gitbucket-go-client/branch/main/graph/badge.svg?token=9MYDA6AOMP)](https://codecov.io/gh/oshiro3/gitbucket-go-client)
+[![Go Report Card](https://goreportcard.com/badge/github.com/oshiro3/gitbucket-go-client)](https://goreportcard.com/report/github.com/oshiro3/gitbucket-go-client)
 
 # gitbucket-go-client
 
