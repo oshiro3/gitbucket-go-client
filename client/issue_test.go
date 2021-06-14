@@ -33,4 +33,10 @@ func TestSetStatus(t *testing.T) {
 		assert.Equal(t, expect, cli.buildStatusURL("abc"))
 
 	})
+
+	t.Run("return gitbucket status url", func(t *testing.T) {
+		cli := New("githost:8080", "root", "test")
+		expect := "http://githost:8080/api/v3/repos/root/test/statuses/abc"
+		assert.Equal(t, expect, cli.buildStatusURL("abc"))
+	})
 }
