@@ -30,6 +30,21 @@ func TestComment(t *testing.T) {
 		cli := New("githost:8080", "root", "test")
 		expect := "http://githost:8080/api/v3/repos/root/test/issues/1/comments"
 		assert.Equal(t, expect, cli.buildCommentURL(1))
+	})
 
+	t.Run("Comment return err when 500 status", func(t *testing.T) {
+		httpmock.Activate()
+		defer httpmock.DeactivateAndReset()
+
+		httpmock.RegisterResponder("POST", `=~http://githost\:8080/api/v3/repos/root/test/issues/\d/comments`,
+			func(req *http.Request) (*http.Response, error) {
+				res := httpmock.NewStringResponse(500, "")
+				return res, nil
+			},
+		)
+
+		cli := New("githost:8080", "root", "test")
+		_, err := cli.Comment(1, "body")
+		assert.Error(t, err)
 	})
 }

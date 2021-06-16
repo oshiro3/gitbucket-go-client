@@ -53,7 +53,6 @@ func TestClient(t *testing.T) {
 	})
 
 	t.Run("EnableHttps set https request", func(t *testing.T) {
-
 		cli := New("githost:8080", "root", "test")
 		cli.EnableHttps()
 		assert.Equal(t, "https://githost:8080/api/v3", cli.baseUrl())
