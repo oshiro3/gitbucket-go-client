@@ -94,15 +94,11 @@ func (g *Gitbucket) requestWithoutAuth(method, url string, body io.Reader) (*htt
 }
 
 func (g *Gitbucket) doRrequest(method, url string, body io.Reader, auth bool) (*http.Response, error) {
-	req, err := http.NewRequest(
+	req, _ := http.NewRequest(
 		method,
 		url,
 		body,
 	)
-	if err != nil {
-		log.Println("fail to create request")
-		return nil, err
-	}
 
 	if auth {
 		req.Header.Set("Authorization", g.buildToken())
